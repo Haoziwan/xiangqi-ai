@@ -366,9 +366,9 @@ export default function XiangqiAI() {
   return (
     <div className="flex flex-col min-h-screen bg-black">
       {/* Top Header - Back Link only */}
-      <div className="max-w-6xl w-full mx-auto px-4 pt-4">
+      <div className="fixed top-4 left-4 z-50">
         <a 
-          href="https://freetools.me" 
+          href="https://freetools.me/" 
           className="inline-flex items-center gap-2 text-xs font-bold text-zinc-500 hover:text-white transition-all bg-zinc-900/40 hover:bg-zinc-800 px-4 py-2 rounded-full border border-white/5"
         >
           <RotateCcw className="w-3 h-3" />
@@ -376,7 +376,7 @@ export default function XiangqiAI() {
         </a>
       </div>
 
-      <div className="flex-1 flex flex-col justify-start md:justify-center items-center py-4 md:pb-12 -mt-6 sm:-mt-12 w-full">
+      <div className="flex-1 flex flex-col justify-start md:justify-center items-center pt-16 md:pt-12 md:pb-12 w-full">
         <div className="flex flex-col lg:flex-row gap-6 lg:gap-10 max-w-7xl w-full px-4 items-stretch justify-center">
           
           {/* LEFT: Chessboard - Scaled Up 10% */}
@@ -511,9 +511,9 @@ export default function XiangqiAI() {
                 <div className="space-y-1.5">
                   <div className="flex items-center gap-3 text-3xl font-black italic tracking-tighter uppercase text-white">
                     <Sword className="w-7 h-7" />
-                    中国象棋 AI
+                    中国象棋 AI - Pikafish Online
                   </div>
-                  <div className="text-[10px] uppercase font-bold tracking-[0.35em] text-zinc-600">经典博弈 · 智慧对战</div>
+                  <div className="text-[10px] uppercase font-bold tracking-[0.35em] text-zinc-600">皮卡鱼在线 · 经典博弈 · 智慧对战</div>
                 </div>
 
                 {/* Turn Info */}
@@ -619,8 +619,8 @@ export default function XiangqiAI() {
                 <BookOpen className="w-6 h-6 text-emerald-500" />
               </div>
               <div>
-                <h3 className="text-2xl font-black italic tracking-tighter uppercase text-white">中国象棋规则</h3>
-                <p className="text-[10px] uppercase font-bold tracking-[0.3em] text-zinc-500 mt-1">Rules & Piece Movements</p>
+                <h3 className="text-2xl font-black italic tracking-tighter uppercase text-white">中国象棋规则 - Pikafish Online</h3>
+                <p className="text-[10px] uppercase font-bold tracking-[0.3em] text-zinc-500 mt-1">皮卡鱼在线 · Rules & Piece Movements</p>
               </div>
             </div>
 

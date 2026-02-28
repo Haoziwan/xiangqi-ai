@@ -77,6 +77,8 @@ export default function XiangqiAI() {
         if (state.difficulty) setDifficulty(state.difficulty);
         if (state.playerSide) setPlayerSide(state.playerSide);
         if (state.isCheck !== undefined) setIsCheck(state.isCheck);
+        if (state.showGameOver !== undefined) setShowGameOver(state.showGameOver);
+        else if (state.winner) setShowGameOver(true);
       } catch (e) {
         console.error("Failed to load Xiangqi state", e);
       }
@@ -95,7 +97,8 @@ export default function XiangqiAI() {
       lastMove,
       difficulty,
       playerSide,
-      isCheck
+      isCheck,
+      showGameOver
     };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   }, [board, turn, history, winner, lastMove, difficulty, playerSide, isCheck, isInitialized]);
@@ -494,7 +497,7 @@ export default function XiangqiAI() {
                         className="bg-red-600/90 text-white px-10 py-4 shadow-[0_0_50px_rgba(220,38,38,0.5)] rounded-lg text-6xl italic font-black animate-pulse"
                         style={{ fontFamily: '"KaiTi", serif' }}
                      >
-                        将军
+                        {t("tools.xiangqi.check")}
                      </div>
                   </div>
                 )}
@@ -507,7 +510,7 @@ export default function XiangqiAI() {
                      </h2>
                      <div className="flex gap-4">
                         <Button size="lg" variant="secondary" className="h-12 rounded-xl font-bold px-8 text-sm" onClick={() => setShowGameOver(false)}>
-                           查看棋局
+                           {t("tools.xiangqi.viewBoard")}
                         </Button>
                         <Button size="lg" variant="destructive" className="h-12 rounded-xl font-black px-10 text-lg shadow-lg shadow-red-900/40" onClick={resetGame}>
                            {t("tools.xiangqi.newGame")}

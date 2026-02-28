@@ -26,6 +26,9 @@ export const translations = {
     "tools.xiangqi.ruleKnightLong": "傌/马：走“日”字。若移动方向邻位有子，则蹩马腿。",
     "tools.xiangqi.ruleRookLong": "俥/车：沿直线移动，步数不限，不能越子。",
     "tools.xiangqi.ruleCannonLong": "炮/砲：走法同车。吃子时必须隔一个棋子（炮架）。",
-    "tools.xiangqi.rulePawnLong": "兵/卒：过河前只能前进；过河后可前进或左右横走一格。"
+    "tools.xiangqi.rulePawnLong": "兵/卒：过河前只能前进；过河后可前进或左右横走一格。",
+    "tools.xiangqi.viewBoard": "查看棋局",
+    "tools.xiangqi.win": "{player} 胜！",
+    "tools.xiangqi.stalemateWin": "{player} 胜！(对方困毙)"
   }
 }

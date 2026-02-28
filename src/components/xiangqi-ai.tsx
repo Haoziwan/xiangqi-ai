@@ -377,12 +377,12 @@ export default function XiangqiAI() {
       </div>
 
       <div className="flex-1 flex flex-col justify-start md:justify-center items-center py-4 md:pb-12 mt-[-20px] sm:mt-0">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 max-w-6xl w-full px-4 items-start">
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 max-w-6xl w-full px-4 items-stretch justify-center">
           
           {/* LEFT: Chessboard */}
-          <div className="lg:col-span-8 flex justify-center items-center">
+          <div className="flex justify-center items-center">
             <div 
-              className="rounded-lg shadow-[0_0_60px_rgba(0,0,0,0.7)] border-[10px] sm:border-[12px] border-[#3e2723] w-full max-w-[500px] ring-2 ring-white/5 relative overflow-hidden h-fit mx-auto select-none"
+              className="rounded-lg shadow-[0_0_60px_rgba(0,0,0,0.7)] border-[10px] sm:border-[12px] border-[#3e2723] w-full max-w-[450px] sm:w-[450px] ring-2 ring-white/5 relative overflow-hidden h-fit select-none"
               style={{ 
                 aspectRatio: "9/10",
                 backgroundImage: "url('./engines/xiangqi/board.png')",
@@ -432,7 +432,7 @@ export default function XiangqiAI() {
                                 ${isCheck && piece.toUpperCase() === 'K' && (isRed(piece) ? turn === 'red' : turn === 'black') ? 'animate-[pulse_1s_infinite] ring-4 ring-red-600 rounded-full bg-red-600/20' : ''}`} 
                               style={{ 
                                 aspectRatio: '1/1',
-                                fontSize: 'min(5.5vw, 28px)'
+                                fontSize: 'min(5.5vw, 26px)'
                               }}
                             >
                                <div 
@@ -504,97 +504,105 @@ export default function XiangqiAI() {
             </div>
           </div>
 
-          {/* RIGHT: Control Panel - Styled like the Screenshot */}
-          <div className="lg:col-span-4 flex flex-col gap-6">
-             <div className="bg-[#111111] rounded-3xl p-8 shadow-2xl border border-white/5 flex flex-col gap-8 min-h-[500px]">
+          {/* RIGHT: Control Panel - Resized and Aligned */}
+          <div className="flex flex-col w-full max-w-[380px] h-full">
+             <div className="bg-[#111111] rounded-3xl p-6 shadow-2xl border border-white/5 flex flex-col gap-6 h-full min-h-[500px]">
                 {/* Title */}
                 <div className="space-y-1">
-                  <div className="flex items-center gap-3 text-3xl font-black italic tracking-tighter uppercase text-white">
-                    <Sword className="w-7 h-7" />
-                    Xiangqi AI
+                  <div className="flex items-center gap-3 text-2xl font-black italic tracking-tighter uppercase text-white">
+                    <Sword className="w-6 h-6" />
+                    中国象棋 AI
                   </div>
-                  <div className="text-[9px] uppercase font-bold tracking-[0.4em] text-zinc-600">Traditional Chinese Chess</div>
+                  <div className="text-[8px] uppercase font-bold tracking-[0.3em] text-zinc-600">经典博弈 · 智慧对战</div>
                 </div>
 
                 {/* Turn Info */}
-                <div className="bg-zinc-900/50 rounded-2xl p-6 border border-white/5 flex items-center gap-5">
-                   <div className={`w-14 h-14 rounded-full flex items-center justify-center font-bold text-3xl shadow-2xl transition-all duration-500 border-b-4 ${turn === 'red' ? 'bg-white text-red-600 border-zinc-200' : 'bg-black text-white border-zinc-800 rotate-180'}`}>
+                <div className="bg-zinc-900/50 rounded-2xl p-4 border border-white/5 flex items-center gap-4">
+                   <div className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-2xl shadow-2xl transition-all duration-500 border-b-4 ${turn === 'red' ? 'bg-white text-red-600 border-zinc-200' : 'bg-black text-white border-zinc-800 rotate-180'}`}>
                       {turn === 'red' ? '帅' : '将'}
                    </div>
                    <div className="flex flex-col">
-                      <span className="text-[10px] font-black uppercase text-zinc-500 tracking-widest">{t("tools.xiangqi.activeSide")}</span>
-                      <span className="font-black text-2xl tracking-tighter uppercase text-white">
-                        {isThinking ? 'AI THINKING...' : (turn === 'red' ? 'RED TURN' : 'BLACK TURN')}
+                      <span className="text-[9px] font-black uppercase text-zinc-500 tracking-widest">{t("tools.xiangqi.activeSide")}</span>
+                      <span className="font-black text-xl tracking-tighter uppercase text-white">
+                        {isThinking ? 'AI 正在思考...' : (turn === 'red' ? '红方回合' : '黑方回合')}
                       </span>
                    </div>
                 </div>
 
                 {/* Player Side Selection */}
-                <div className="space-y-4">
+                <div className="space-y-3">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2 text-[10px] uppercase font-black text-zinc-500">
                       <UserCheck className="w-3.5 h-3.5" />
-                      PREFERRED SIDE
+                      玩家执子
                     </div>
-                    <div className="bg-zinc-800/80 px-3 py-1 rounded-full text-[9px] font-black text-emerald-400 border border-emerald-500/20 uppercase tracking-widest">{playerSide === 'red' ? 'RED (FIRST)' : 'BLACK (SECOND)'}</div>
+                    <div className="bg-zinc-800/80 px-2 py-0.5 rounded-full text-[8px] font-black text-emerald-400 border border-emerald-500/20 uppercase tracking-widest">{playerSide === 'red' ? '红方' : '黑方'}</div>
                   </div>
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-2 gap-2">
                     <Button 
                       variant={playerSide === 'red' ? 'default' : 'secondary'} 
-                      className={`h-12 text-[10px] font-black uppercase rounded-xl transition-all ${playerSide === 'red' ? 'bg-emerald-800 hover:bg-emerald-700 text-white shadow-[0_0_20px_rgba(22,101,52,0.3)]' : 'bg-zinc-900/80 hover:bg-zinc-800 text-zinc-500'}`}
+                      className={`h-11 text-[11px] font-black rounded-xl transition-all ${playerSide === 'red' ? 'bg-emerald-800 hover:bg-emerald-700 text-white' : 'bg-zinc-900/80 hover:bg-zinc-800 text-zinc-500'}`}
                       onClick={() => { setPlayerSide('red'); if (history.length === 0) resetGame(); }}
                       disabled={isThinking}
                     >
-                      RED (FIRST)
+                      红方 (先手)
                     </Button>
                     <Button 
                       variant={playerSide === 'black' ? 'default' : 'secondary'} 
-                      className={`h-12 text-[10px] font-black uppercase rounded-xl transition-all ${playerSide === 'black' ? 'bg-emerald-800 hover:bg-emerald-700 text-white shadow-[0_0_20px_rgba(22,101,52,0.3)]' : 'bg-zinc-900/80 hover:bg-zinc-800 text-zinc-500'}`}
+                      className={`h-11 text-[11px] font-black rounded-xl transition-all ${playerSide === 'black' ? 'bg-emerald-800 hover:bg-emerald-700 text-white' : 'bg-zinc-900/80 hover:bg-zinc-800 text-zinc-500'}`}
                       onClick={() => { setPlayerSide('black'); if (history.length === 0) resetGame(); }}
                       disabled={isThinking}
                     >
-                      BLACK (SECOND)
+                      黑方 (后手)
                     </Button>
                   </div>
                 </div>
 
                 {/* Intelligence Level */}
-                <div className="space-y-4">
+                <div className="space-y-3">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2 text-[10px] uppercase font-black text-zinc-500">
                       <Brain className="w-3.5 h-3.5" />
-                      INTELLIGENCE LEVEL
+                      AI 难度等级
                     </div>
-                    <div className="bg-zinc-800/80 px-3 py-1 rounded-full text-[9px] font-black text-emerald-400 border border-emerald-500/20 uppercase">{difficulty.toUpperCase()}</div>
+                    <div className="bg-zinc-800/80 px-2 py-0.5 rounded-full text-[8px] font-black text-emerald-400 border border-emerald-500/20 uppercase">
+                      {difficulty === 'easy' ? '新手' : difficulty === 'medium' ? '大众' : difficulty === 'hard' ? '专家' : difficulty === 'expert' ? '大师' : '棋圣'}
+                    </div>
                   </div>
-                  <div className="grid grid-cols-5 gap-2">
-                    {['easy', 'medium', 'hard', 'expert', 'master'].map((lv) => (
+                  <div className="grid grid-cols-5 gap-1.5">
+                    {[
+                      { id: 'easy', name: '新手' },
+                      { id: 'medium', name: '大众' },
+                      { id: 'hard', name: '专家' },
+                      { id: 'expert', name: '大师' },
+                      { id: 'master', name: '棋圣' }
+                    ].map((lv) => (
                       <Button 
-                        key={lv} 
-                        variant={difficulty === lv ? 'default' : 'secondary'} 
-                        className={`h-9 px-0 text-[8px] font-black uppercase rounded-xl transition-all ${difficulty === lv ? 'bg-emerald-800 hover:bg-emerald-700 text-white shadow-lg' : 'bg-zinc-900/80 hover:bg-zinc-800 text-zinc-600'}`}
-                        onClick={() => setDifficulty(lv)}
+                        key={lv.id} 
+                        variant={difficulty === lv.id ? 'default' : 'secondary'} 
+                        className={`h-8 px-0 text-[10px] font-black rounded-lg transition-all ${difficulty === lv.id ? 'bg-emerald-800 hover:bg-emerald-700 text-white' : 'bg-zinc-900/80 hover:bg-zinc-800 text-zinc-600'}`}
+                        onClick={() => setDifficulty(lv.id)}
                         disabled={isThinking}
                       >
-                        {lv}
+                        {lv.name}
                       </Button>
                     ))}
                   </div>
                 </div>
 
                 {/* Undo & Hint Buttons */}
-                <div className="grid grid-cols-2 gap-4 mt-auto pt-6">
-                  <Button variant="secondary" className="h-14 rounded-2xl font-black bg-zinc-900/60 border border-white/5 hover:bg-zinc-800 text-zinc-400 transition-all" onClick={undoMove} disabled={history.length < 2 || isThinking || winner !== null}>
-                     <Undo2 className="w-5 h-5 mr-3" />
-                     Undo
+                <div className="grid grid-cols-2 gap-3 mt-auto pt-4">
+                  <Button variant="secondary" className="h-12 rounded-xl font-black bg-zinc-900/60 border border-white/5 hover:bg-zinc-800 text-zinc-400" onClick={undoMove} disabled={history.length < 2 || isThinking || winner !== null}>
+                     <Undo2 className="w-4 h-4 mr-2" />
+                     悔棋
                   </Button>
-                  <Button variant="secondary" className="h-14 rounded-2xl font-black bg-zinc-900/60 border border-white/5 hover:bg-zinc-800 text-zinc-400 transition-all font-serif italic" onClick={getHint} disabled={winner !== null || isThinking}>
-                     <Lightbulb className="w-5 h-5 mr-3 text-amber-500" />
-                     Hint
+                  <Button variant="secondary" className="h-12 rounded-xl font-black bg-zinc-900/60 border border-white/5 hover:bg-zinc-800 text-zinc-400 font-serif italic" onClick={getHint} disabled={winner !== null || isThinking}>
+                     <Lightbulb className="w-4 h-4 mr-2 text-amber-500" />
+                     提示
                   </Button>
-                  <Button variant="destructive" className="h-14 rounded-2xl font-black bg-red-600 hover:bg-red-500 text-white shadow-xl shadow-red-900/20 active:scale-95 transition-all col-span-2 text-lg" onClick={resetGame}>
-                     <RotateCcw className="w-5 h-5 mr-3" />
-                     New Game
+                  <Button variant="destructive" className="h-12 rounded-xl font-black bg-red-600 hover:bg-red-500 text-white shadow-lg active:scale-95 transition-all col-span-2 text-lg" onClick={resetGame}>
+                     <RotateCcw className="w-4 h-4 mr-2" />
+                     新局
                   </Button>
                 </div>
              </div>

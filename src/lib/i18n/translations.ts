@@ -1,0 +1,31 @@
+export const translations = {
+  zh: {
+    "tools.xiangqi.title": "中国象棋 AI",
+    "tools.xiangqi.newGame": "新对局",
+    "tools.xiangqi.undo": "悔棋",
+    "tools.xiangqi.difficulty": "AI 难度等级",
+    "tools.xiangqi.thinking": "AI 思考中...",
+    "tools.xiangqi.red": "红方",
+    "tools.xiangqi.black": "黑方",
+    "tools.xiangqi.check": "将军！",
+    "tools.xiangqi.checkmate": "将死！",
+    "tools.xiangqi.stalemate": "困毙",
+    "tools.xiangqi.rulesTitle": "中国象棋规则简介",
+    "tools.xiangqi.ruleObjective": "目标：率先将死对方的将（帅）者获胜。",
+    "tools.xiangqi.rulePawn": "兵/卒：过河前只能前行，过河后可左右移动。",
+    "tools.xiangqi.activeSide": "当前回合",
+    "tools.xiangqi.preferredSide": "玩家执子",
+    "tools.xiangqi.difficultyLevel": "AI 难度级别",
+    "tools.xiangqi.hint": "提示",
+    "tools.xiangqi.ruleMove": "走棋：红方先行，双方交替移动棋子。",
+    "tools.xiangqi.ruleCapture": "吃子：落子点有对方棋子则将其移出。",
+    "tools.xiangqi.fullRules": "详细规则",
+    "tools.xiangqi.ruleKingLong": "帅/将：只能在“九宫”内活动，每次走一格，不能对面。",
+    "tools.xiangqi.ruleAdvisorLong": "仕/士：只能在“九宫”内活动，每次沿对角线走一格。",
+    "tools.xiangqi.ruleBishopLong": "相/象：走“田”字，不能过河。若“田”字中心有子，则塞象眼。",
+    "tools.xiangqi.ruleKnightLong": "傌/马：走“日”字。若移动方向邻位有子，则蹩马腿。",
+    "tools.xiangqi.ruleRookLong": "俥/车：沿直线移动，步数不限，不能越子。",
+    "tools.xiangqi.ruleCannonLong": "炮/砲：走法同车。吃子时必须隔一个棋子（炮架）。",
+    "tools.xiangqi.rulePawnLong": "兵/卒：过河前只能前进；过河后可前进或左右横走一格。"
+  }
+}

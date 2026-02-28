@@ -60,6 +60,7 @@ export default function XiangqiAI() {
   const [isThinking, setIsThinking] = useState(false);
   const [hint, setHint] = useState<XiangqiMove | null>(null);
   const [isInitialized, setIsInitialized] = useState(false);
+  const [showGameOver, setShowGameOver] = useState(false);
   const engineRef = useRef<XiangqiEngine | null>(null);
 
   // Load from LocalStorage
@@ -284,6 +285,7 @@ export default function XiangqiAI() {
     // Checkmate/Stalemate detection
     if (!hasLegalMoves(newBoard, oppColor)) {
       setWinner(turn);
+      setShowGameOver(true);
       const winMsg = oppInCheck 
         ? (t("tools.xiangqi.win")?.replace("{player}", turn === 'red' ? t("tools.xiangqi.red") : t("tools.xiangqi.black")) || "Checkmate!")
         : (t("tools.xiangqi.stalemateWin")?.replace("{player}", turn === 'red' ? t("tools.xiangqi.red") : t("tools.xiangqi.black")) || "Stalemate!");
@@ -340,6 +342,7 @@ export default function XiangqiAI() {
     setLastMove(null);
     setIsThinking(false);
     setHint(null);
+    setIsCheck(false);
     localStorage.removeItem(STORAGE_KEY);
   };
 
@@ -353,14 +356,21 @@ export default function XiangqiAI() {
   }
 
   const undoMove = () => {
-    if (history.length < 2 || isThinking) return;
-    const prevBoard = history[history.length - 2];
+    if (history.length === 0 || isThinking) return;
+    
+    // If game ended, undo 1 move. If AI played, undo 2 moves (AI + Player)
+    const stepsToUndo = (winner !== null || history.length === 1) ? 1 : 2;
+    const targetIndex = Math.max(0, history.length - stepsToUndo);
+    
+    const prevBoard = history[targetIndex];
     setBoard(prevBoard);
-    setHistory(history.slice(0, -2));
+    setHistory(history.slice(0, targetIndex));
     setTurn(playerSide);
     setWinner(null);
+    setShowGameOver(false);
     setSelected(null);
     setLastMove(null);
+    setIsCheck(!isKingSafe(prevBoard, playerSide));
   };
 
   return (
@@ -489,15 +499,20 @@ export default function XiangqiAI() {
                   </div>
                 )}
                 
-                {winner && (
-                  <div className="absolute inset-0 z-[100] bg-black/80 backdrop-blur-sm flex flex-col items-center justify-center text-white animate-in zoom-in slide-in-from-top-10 duration-500">
-                     <Trophy className="w-24 h-24 text-yellow-500 mb-6 drop-shadow-[0_0_20px_rgba(234,179,8,0.5)] animate-bounce" />
-                     <h2 className="text-6xl font-black mb-10 italic uppercase">
+                {winner && showGameOver && (
+                  <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 z-[100] bg-black/40 backdrop-blur-md py-8 flex flex-col items-center justify-center text-white animate-in zoom-in slide-in-from-top-10 duration-500 border-y border-white/10 shadow-[0_0_80px_rgba(0,0,0,0.8)] pointer-events-auto">
+                     <Trophy className="w-16 h-16 text-yellow-500 mb-4 drop-shadow-[0_0_20px_rgba(234,179,8,0.5)] animate-bounce" />
+                     <h2 className="text-4xl font-black mb-8 italic uppercase tracking-tighter">
                         {winner === 'red' ? t("tools.xiangqi.red") : t("tools.xiangqi.black")} 胜
                      </h2>
-                     <Button size="lg" variant="destructive" className="h-16 rounded-xl font-black px-14 text-2xl" onClick={resetGame}>
-                        {t("tools.xiangqi.newGame")}
-                     </Button>
+                     <div className="flex gap-4">
+                        <Button size="lg" variant="secondary" className="h-12 rounded-xl font-bold px-8 text-sm" onClick={() => setShowGameOver(false)}>
+                           查看棋局
+                        </Button>
+                        <Button size="lg" variant="destructive" className="h-12 rounded-xl font-black px-10 text-lg shadow-lg shadow-red-900/40" onClick={resetGame}>
+                           {t("tools.xiangqi.newGame")}
+                        </Button>
+                     </div>
                   </div>
                 )}
               </div>
@@ -592,7 +607,7 @@ export default function XiangqiAI() {
 
                 {/* Undo & Hint Buttons */}
                 <div className="grid grid-cols-2 gap-4 mt-auto pt-4">
-                  <Button variant="secondary" className="h-14 rounded-xl font-black bg-zinc-900/60 border border-white/5 hover:bg-zinc-800 text-zinc-400 text-sm" onClick={undoMove} disabled={history.length < 2 || isThinking || winner !== null}>
+                  <Button variant="secondary" className="h-14 rounded-xl font-black bg-zinc-900/60 border border-white/5 hover:bg-zinc-800 text-zinc-400 text-sm" onClick={undoMove} disabled={history.length === 0 || isThinking}>
                      <Undo2 className="w-5 h-5 mr-2.5" />
                      悔棋
                   </Button>

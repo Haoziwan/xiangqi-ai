@@ -524,56 +524,22 @@ export default function XiangqiAI() {
 
           {/* RIGHT: Control Panel - Scaled Up 10% */}
           <div className="flex flex-col w-full max-w-[420px] h-full">
-             <div className="bg-[#111111] rounded-[2rem] p-8 shadow-2xl border border-white/5 flex flex-col gap-8 h-full min-h-[550px]">
-                {/* Title */}
-                <div className="space-y-1.5">
-                  <div className="flex items-center gap-3 text-3xl font-black italic tracking-tighter uppercase text-white">
-                    <Sword className="w-7 h-7" />
-                    中国象棋 AI - Pikafish Online
-                  </div>
-                  <div className="text-[10px] uppercase font-bold tracking-[0.35em] text-zinc-600">皮卡鱼在线 · 经典博弈 · 智慧对战</div>
-                </div>
-
-                {/* Turn Info */}
-                <div className="bg-zinc-900/50 rounded-2xl p-5 border border-white/5 flex items-center gap-5">
-                   <div className={`w-14 h-14 rounded-full flex items-center justify-center font-bold text-3xl shadow-2xl transition-all duration-500 border-b-4 ${turn === 'red' ? 'bg-white text-red-600 border-zinc-200' : 'bg-black text-white border-zinc-800 rotate-180'}`}>
-                      {turn === 'red' ? '帅' : '将'}
-                   </div>
-                   <div className="flex flex-col">
-                      <span className="text-[10px] font-black uppercase text-zinc-500 tracking-widest">{t("tools.xiangqi.activeSide")}</span>
-                      <span className="font-black text-2xl tracking-tighter uppercase text-white mt-1">
-                        {isThinking ? 'AI 正在思考...' : (turn === 'red' ? '红方回合' : '黑方回合')}
-                      </span>
-                   </div>
-                </div>
-
-                {/* Player Side Selection */}
-                <div className="space-y-3.5">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2 text-[11px] uppercase font-black text-zinc-500">
-                      <UserCheck className="w-4 h-4" />
-                      玩家执子
-                    </div>
-                    <div className="bg-zinc-800/80 px-2.5 py-0.5 rounded-full text-[9px] font-black text-emerald-400 border border-emerald-500/20 uppercase tracking-widest">{playerSide === 'red' ? '红方' : '黑方'}</div>
-                  </div>
-                  <div className="grid grid-cols-2 gap-3">
-                    <Button 
-                      variant={playerSide === 'red' ? 'default' : 'secondary'} 
-                      className={`h-12 text-xs font-black rounded-xl transition-all ${playerSide === 'red' ? 'bg-emerald-800 hover:bg-emerald-700 text-white' : 'bg-zinc-900/80 hover:bg-zinc-800 text-zinc-500'}`}
-                      onClick={() => { setPlayerSide('red'); if (history.length === 0) resetGame(); }}
-                      disabled={isThinking}
-                    >
-                      红方 (先手)
-                    </Button>
-                    <Button 
-                      variant={playerSide === 'black' ? 'default' : 'secondary'} 
-                      className={`h-12 text-xs font-black rounded-xl transition-all ${playerSide === 'black' ? 'bg-emerald-800 hover:bg-emerald-700 text-white' : 'bg-zinc-900/80 hover:bg-zinc-800 text-zinc-500'}`}
-                      onClick={() => { setPlayerSide('black'); if (history.length === 0) resetGame(); }}
-                      disabled={isThinking}
-                    >
-                      黑方 (后手)
-                    </Button>
-                  </div>
+             <div className="bg-[#111111] rounded-[2rem] p-5 sm:p-8 shadow-2xl border border-white/5 flex flex-col gap-6 sm:gap-8 h-full">
+                
+                {/* Action Buttons (Undo, Hint, New Game) */}
+                <div className="grid grid-cols-2 gap-3 sm:gap-4">
+                  <Button variant="secondary" className="h-12 sm:h-14 rounded-xl font-black bg-zinc-900/60 border border-white/5 hover:bg-zinc-800 text-zinc-400 text-sm" onClick={undoMove} disabled={history.length === 0 || isThinking}>
+                     <Undo2 className="w-5 h-5 mr-2.5" />
+                     悔棋
+                  </Button>
+                  <Button variant="secondary" className="h-12 sm:h-14 rounded-xl font-black bg-zinc-900/60 border border-white/5 hover:bg-zinc-800 text-zinc-400 text-sm font-serif italic" onClick={getHint} disabled={winner !== null || isThinking}>
+                     <Lightbulb className="w-5 h-5 mr-2.5 text-amber-500" />
+                     提示
+                  </Button>
+                  <Button variant="destructive" className="h-12 sm:h-14 rounded-xl font-black bg-red-600 hover:bg-red-500 text-white shadow-xl shadow-red-900/20 active:scale-95 transition-all col-span-2 text-lg sm:text-xl" onClick={resetGame}>
+                     <RotateCcw className="w-5 h-5 mr-2.5" />
+                     新局
+                  </Button>
                 </div>
 
                 {/* Intelligence Level */}
@@ -608,21 +574,48 @@ export default function XiangqiAI() {
                   </div>
                 </div>
 
-                {/* Undo & Hint Buttons */}
-                <div className="grid grid-cols-2 gap-4 mt-auto pt-4">
-                  <Button variant="secondary" className="h-14 rounded-xl font-black bg-zinc-900/60 border border-white/5 hover:bg-zinc-800 text-zinc-400 text-sm" onClick={undoMove} disabled={history.length === 0 || isThinking}>
-                     <Undo2 className="w-5 h-5 mr-2.5" />
-                     悔棋
-                  </Button>
-                  <Button variant="secondary" className="h-14 rounded-xl font-black bg-zinc-900/60 border border-white/5 hover:bg-zinc-800 text-zinc-400 text-sm font-serif italic" onClick={getHint} disabled={winner !== null || isThinking}>
-                     <Lightbulb className="w-5 h-5 mr-2.5 text-amber-500" />
-                     提示
-                  </Button>
-                  <Button variant="destructive" className="h-14 rounded-xl font-black bg-red-600 hover:bg-red-500 text-white shadow-xl shadow-red-900/20 active:scale-95 transition-all col-span-2 text-xl" onClick={resetGame}>
-                     <RotateCcw className="w-5 h-5 mr-2.5" />
-                     新局
-                  </Button>
+                {/* Player Side Selection */}
+                <div className="space-y-3.5 mt-auto">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-[11px] uppercase font-black text-zinc-500">
+                      <UserCheck className="w-4 h-4" />
+                      玩家执子
+                    </div>
+                    <div className="bg-zinc-800/80 px-2.5 py-0.5 rounded-full text-[9px] font-black text-emerald-400 border border-emerald-500/20 uppercase tracking-widest">{playerSide === 'red' ? '红方' : '黑方'}</div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <Button 
+                      variant={playerSide === 'red' ? 'default' : 'secondary'} 
+                      className={`h-10 sm:h-12 text-xs font-black rounded-xl transition-all ${playerSide === 'red' ? 'bg-emerald-800 hover:bg-emerald-700 text-white' : 'bg-zinc-900/80 hover:bg-zinc-800 text-zinc-500'}`}
+                      onClick={() => { setPlayerSide('red'); if (history.length === 0) resetGame(); }}
+                      disabled={isThinking}
+                    >
+                      红方 (先手)
+                    </Button>
+                    <Button 
+                      variant={playerSide === 'black' ? 'default' : 'secondary'} 
+                      className={`h-10 sm:h-12 text-xs font-black rounded-xl transition-all ${playerSide === 'black' ? 'bg-emerald-800 hover:bg-emerald-700 text-white' : 'bg-zinc-900/80 hover:bg-zinc-800 text-zinc-500'}`}
+                      onClick={() => { setPlayerSide('black'); if (history.length === 0) resetGame(); }}
+                      disabled={isThinking}
+                    >
+                      黑方 (后手)
+                    </Button>
+                  </div>
                 </div>
+
+                {/* Turn Info */}
+                <div className="bg-zinc-900/50 rounded-2xl p-4 sm:p-5 border border-white/5 flex items-center gap-4 sm:gap-5">
+                   <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center font-bold text-2xl sm:text-3xl shadow-2xl transition-all duration-500 border-b-4 shrink-0 ${turn === 'red' ? 'bg-white text-red-600 border-zinc-200' : 'bg-black text-white border-zinc-800 rotate-180'}`}>
+                      {turn === 'red' ? '帅' : '将'}
+                   </div>
+                   <div className="flex flex-col">
+                      <span className="text-[10px] font-black uppercase text-zinc-500 tracking-widest">{t("tools.xiangqi.activeSide")}</span>
+                      <span className="font-black text-xl sm:text-2xl tracking-tighter uppercase text-white mt-0.5 sm:mt-1">
+                        {isThinking ? 'AI 正在思考...' : (turn === 'red' ? '红方回合' : '黑方回合')}
+                      </span>
+                   </div>
+                </div>
+
              </div>
           </div>
         </div>

@@ -13,7 +13,7 @@ if (typeof SharedArrayBuffer === 'undefined') {
 
 // Pre-load the script
 const fullEnginePath = new URL(ENGINES_PATH + 'pikafish.js', self.location.origin).href;
-importScripts(fullEnginePath);
+(self as any).importScripts(fullEnginePath);
 
 async function initEngine() {
   try {
